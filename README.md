@@ -70,7 +70,7 @@ src/
   App.jsx
   main.jsx
 DECISIONS.md
-docs/                   Lighthouse screenshot (add after first deploy)
+docs/                   Lighthouse screenshot
 ```
 
 ---
@@ -79,36 +79,22 @@ docs/                   Lighthouse screenshot (add after first deploy)
 
 See [DECISIONS.md](./DECISIONS.md) for the full write-up. Short version:
 
-- **Context API** over Zustand — cart is a flat list with no async; built-in solution is sufficient
-- **Flexbox throughout** — `display: flex` with `flex-wrap` instead of CSS Grid for all layouts
-- **Deterministic fake variants** — Fake Store API returns no colour/size data; variants are generated per product id so states like sold-out and low-stock are testable and consistent
+- **Context API** over Zustand — cart is a flat list, no async, no middleware needed
+- **Flexbox throughout** — `flex-wrap` with calculated `flex-basis` instead of CSS Grid
+- **Fake variants** — Fake Store has no colour/size data so variants are generated per product id; called out in DECISIONS.md
 
 ---
 
 ## Known trade-offs
 
-- Fake variant data — see DECISIONS.md #1
-- Category filter isn't URL-persisted (deep-linkable) — quick addition left out for time
-- No error boundary component
+- Variant data is fake and deterministic — "Midnight / M" being low stock on a specific product is arbitrary, not real inventory
+- `loading="lazy"` applied to all product cards including above-the-fold ones — should only be lazy below the fold
+- Category filter selection isn't URL-persisted — filtering to electronics and sharing the link just shows "All"
 
 ---
 
 ## Deployment
 
-```bash
-npm run build       # outputs to /dist
-```
+Live site: https://nua-ecommerce-app.netlify.app/
 
-Deploy the `/dist` folder to Vercel or Netlify. On Vercel:
-
-```bash
-npx vercel --prod
-```
-
-Add a `vercel.json` for SPA routing (React Router needs this):
-
-```json
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
-```
+Built with `npm run build`, deployed via Netlify.
