@@ -1,0 +1,490 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+//  Page layout 
+.page {
+  padding-block: $space-10;
+
+  @include mobile {
+    padding-block: $space-6;
+  }
+}
+
+.layout {
+  @include flex(row, flex-start, flex-start);
+  gap: $space-12;
+
+  @include mobile {
+    @include flex(column);
+    gap: $space-8;
+  }
+}
+
+//  Gallery column 
+.gallery {
+  @include flex(column);
+  gap: $space-4;
+  flex: 1 1 50%;
+  min-width: 0;
+  position: sticky;
+  top: calc(#{$navbar-height} + #{$space-6});
+  align-self: flex-start;
+
+  @include mobile {
+    position: static;
+    flex: none;
+    width: 100%;
+  }
+}
+
+.main-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: $color-surface-alt;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  @include flex-center;
+  border: 1px solid $color-border;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: $space-8;
+    transition: opacity $transition-base;
+  }
+}
+
+//  Thumbnails 
+.thumbnails {
+  @include flex(row, center);
+  gap: $space-3;
+  overflow-x: auto;
+  padding-bottom: $space-1; // room for scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: $color-border transparent;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $color-border;
+    border-radius: 2px;
+  }
+}
+
+.thumb {
+  @include btn-reset;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  background: $color-surface-alt;
+  border-radius: $border-radius;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color $transition-fast;
+  @include flex-center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: $space-2;
+  }
+
+  &--active {
+    border-color: $color-accent;
+  }
+
+  &:hover:not(.thumb--active) {
+    border-color: $color-border;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+//  Info column 
+.info {
+  @include flex(column);
+  flex: 1 1 45%;
+  min-width: 0;
+  gap: $space-6;
+
+  @include mobile {
+    flex: none;
+    width: 100%;
+  }
+}
+
+.brand {
+  font-size: $fs-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.name {
+  font-family: $font-display;
+  font-size: $fs-2xl;
+  font-weight: $fw-bold;
+  color: $color-text-primary;
+  line-height: $lh-tight;
+
+  @include mobile {
+    font-size: $fs-xl;
+  }
+}
+
+//  Price 
+.price-row {
+  @include flex(row, baseline);
+  gap: $space-3;
+}
+
+.price {
+  font-size: $fs-xl;
+  font-weight: $fw-bold;
+  color: $color-text-primary;
+
+  &--sale {
+    color: $color-sale;
+  }
+}
+
+.price-original {
+  font-size: $fs-md;
+  color: $color-text-muted;
+  text-decoration: line-through;
+}
+
+.price-badge {
+  padding: $space-1 $space-2;
+  background: $color-sale;
+  color: #fff;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+//  Divider 
+.divider {
+  height: 1px;
+  background: $color-border;
+}
+
+//  Colour picker 
+.section-label {
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  color: $color-text-primary;
+  margin-bottom: $space-3;
+
+  span {
+    font-weight: $fw-regular;
+    color: $color-text-secondary;
+    margin-left: $space-2;
+  }
+}
+
+.colours {
+  @include flex(row, center);
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.colour-btn {
+  @include btn-reset;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: transform $transition-fast, border-color $transition-fast;
+  position: relative;
+
+  &--active {
+    border-color: $color-accent;
+    transform: scale(1.15);
+  }
+
+  &:hover:not(.colour-btn--active) {
+    transform: scale(1.08);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+//  Size picker 
+.sizes {
+  @include flex(row, center);
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.size-btn {
+  @include btn-reset;
+  min-width: 52px;
+  height: 40px;
+  padding-inline: $space-3;
+  border: 1.5px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $color-text-primary;
+  background: $color-surface;
+  transition: border-color $transition-fast, background $transition-fast, color $transition-fast;
+  position: relative;
+
+  &--active {
+    border-color: $color-text-primary;
+    background: $color-text-primary;
+    color: $color-surface;
+  }
+
+  &--low-stock {
+    border-color: $color-low-stock;
+    color: $color-low-stock;
+
+    &.size-btn--active {
+      background: $color-low-stock;
+      color: #fff;
+    }
+  }
+
+  &--sold-out {
+    color: $color-sold-out;
+    border-color: $color-border;
+    cursor: not-allowed;
+    text-decoration: line-through;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: $color-sold-out;
+      pointer-events: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(.size-btn--active):not(.size-btn--sold-out) {
+    border-color: $color-text-primary;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.size-hint {
+  @include flex(row, center);
+  gap: $space-3;
+  margin-top: $space-3;
+
+  &__dot {
+    @include flex(row, center);
+    gap: $space-1;
+    font-size: $fs-xs;
+    color: $color-text-secondary;
+
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    &--low::before  { background: $color-low-stock; }
+    &--out::before  { background: $color-sold-out; }
+  }
+}
+
+//  Stock status callout 
+.stock-status {
+  @include flex(row, center);
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-radius: $border-radius;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+
+  &--low {
+    background: rgba($color-warning, 0.1);
+    color: $color-warning;
+    border: 1px solid rgba($color-warning, 0.25);
+  }
+
+  &--out {
+    background: rgba($color-sold-out, 0.12);
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+  }
+}
+
+//  Quantity picker 
+.qty-row {
+  @include flex(row, center);
+  gap: $space-4;
+}
+
+.qty-label {
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  color: $color-text-primary;
+  white-space: nowrap;
+}
+
+.qty {
+  @include flex(row, center);
+  border: 1.5px solid $color-border;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &__btn {
+    @include btn-reset;
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    font-size: $fs-lg;
+    color: $color-text-primary;
+    background: $color-surface;
+    transition: background $transition-fast;
+
+    &:hover:not(:disabled) {
+      background: $color-surface-alt;
+    }
+
+    &:disabled {
+      color: $color-text-muted;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__value {
+    min-width: 44px;
+    height: 40px;
+    @include flex-center;
+    font-size: $fs-base;
+    font-weight: $fw-semibold;
+    border-inline: 1.5px solid $color-border;
+  }
+}
+
+//  Add to cart button 
+.add-btn {
+  @include btn-reset;
+  width: 100%;
+  padding: $space-4 $space-6;
+  background: $color-text-primary;
+  color: $color-surface;
+  font-size: $fs-base;
+  font-weight: $fw-semibold;
+  border-radius: $border-radius;
+  letter-spacing: 0.03em;
+  transition: background $transition-fast, opacity $transition-fast;
+  text-align: center;
+
+  &:hover:not(:disabled) {
+    background: $color-accent;
+  }
+
+  &:disabled {
+    background: $color-sold-out;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+//  Description 
+.description {
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+  line-height: $lh-base;
+}
+
+//  Back link 
+.back-link {
+  @include flex(row, center);
+  gap: $space-2;
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+  text-decoration: none;
+  margin-bottom: $space-6;
+  transition: color $transition-fast;
+  width: fit-content;
+
+  &:hover {
+    color: $color-text-primary;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}
+
+//  Loading / Error states 
+.state-box {
+  @include flex(column, center, center);
+  min-height: 60vh;
+  gap: $space-4;
+  text-align: center;
+
+  &__title {
+    font-size: $fs-xl;
+    font-weight: $fw-semibold;
+    color: $color-text-primary;
+  }
+
+  &__sub {
+    font-size: $fs-base;
+    color: $color-text-secondary;
+  }
+
+  &__btn {
+    @include btn-reset;
+    padding: $space-3 $space-6;
+    background: $color-accent;
+    color: #fff;
+    border-radius: $border-radius;
+    font-size: $fs-sm;
+    font-weight: $fw-semibold;
+    margin-top: $space-2;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-accent-hover;
+    }
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $color-border;
+  border-top-color: $color-accent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

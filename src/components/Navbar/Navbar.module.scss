@@ -1,0 +1,96 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: $navbar-height;
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+
+  &__inner {
+    @include flex-between;
+    height: 100%;
+    max-width: $max-width;
+    margin-inline: auto;
+    padding-inline: $space-8;
+
+    @include mobile {
+      padding-inline: $space-4;
+    }
+  }
+
+  &__brand {
+    @include flex(row, center, flex-start);
+    gap: $space-2;
+    text-decoration: none;
+    color: $color-text-primary;
+
+    &-name {
+      font-family: $font-display;
+      font-size: $fs-xl;
+      font-weight: $fw-bold;
+      letter-spacing: -0.02em;
+      color: $color-text-primary;
+    }
+
+    &-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: $color-accent;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+  }
+
+  &__right {
+    @include flex(row, center, flex-end);
+    gap: $space-4;
+  }
+
+  &__cart-btn {
+    @include btn-reset;
+    @include flex-center;
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: $border-radius;
+    color: $color-text-primary;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-surface-alt;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 18px;
+    height: 18px;
+    padding-inline: 4px;
+    background: $color-accent;
+    color: #fff;
+    font-size: $fs-xs;
+    font-weight: $fw-bold;
+    border-radius: 9px;
+    @include flex-center;
+    line-height: 1;
+    pointer-events: none;
+  }
+}
