@@ -2,9 +2,10 @@
 
 A mini e-commerce web app built with React 18 + Vite + SCSS Modules.
 
-**Live demo:** _[add your Vercel/Netlify URL here after deployment]_
+**Live demo:**
 
----
+https://nua-ecommerce-app.netlify.app/
+
 
 ## Setup
 
